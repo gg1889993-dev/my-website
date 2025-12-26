@@ -1,10 +1,252 @@
+
 <!DOCTYPE html>
-<html>
+<html lang="en">
 <head>
-  <title>My First Website</title>
+  <meta charset="UTF-8">
+  <title>Priyanshu Saklani</title>
+  <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400&display=swap" rel="stylesheet">
 </head>
 <body>
-  <h1>Hello Priyanshu 👋</h1>
-  <p>This is my first website hosted on GitHub Pages.</p>
+
+<div class="bg-gradient"></div>
+<canvas id="particles"></canvas>
+
+<header class="hero">
+  <h1 class="reveal">Priyanshu Saklani</h1>
+  <p class="sub reveal-delay">calm • confident • old school</p>
+</header>
+
+<section class="about hidden">
+  <p>
+    Hi,I'm Priyanshu currently residing in Dehradun,Uttrakhand,India.I am calm yet highly ambitious person.I love learning new things at my own pace.My hobbies are to read and watch fiction, playing outdoor sports.
+  </p>
+</section>
+
+<section class="animation-zone hidden">
+  <div class="ring"></div>
+  <div class="ring small"></div>
+</section>
+
+<section class="info hidden">
+  <h2>Contact</h2>
+  <p class="text">
+    <span class="highlight">ultgzhj@gmail.com</span>
+  </p>
+</section>
+
+<section class="info hidden">
+  <h2>Education</h2>
+  <p class="text">
+    AISSCE — Children's Modern Academy<br>
+    Bachelor of Commerce (B.Com)<br>
+    Doon University
+  </p>
+</section>
+
+<section class="note hidden">
+  <p>
+    moving quietly through time,<br>
+    learning deeply,<br>
+    trusting the process,<br>
+    becoming more than yesterday 🌙
+  </p>
+</section>
+
+<footer>
+  <p>© 2025 • chill mode on ☾</p>
+</footer>
+
+<script src="script.js"></script>
 </body>
 </html>
+* {
+  box-sizing: border-box;
+}
+
+body {
+  margin: 0;
+  font-family: 'Poppins', sans-serif;
+  color: #eaeaea;
+  background: #0b1c26;
+  overflow-x: hidden;
+}
+
+/* BREATHING GRADIENT */
+.bg-gradient {
+  position: fixed;
+  inset: 0;
+  background: radial-gradient(circle at top, #2c5364, #0f2027);
+  animation: breathe 12s ease-in-out infinite;
+  z-index: -3;
+}
+
+@keyframes breathe {
+  0%,100% { filter: brightness(1); }
+  50% { filter: brightness(1.15); }
+}
+
+/* PARTICLES */
+#particles {
+  position: fixed;
+  inset: 0;
+  z-index: -2;
+}
+
+/* HERO */
+.hero {
+  text-align: center;
+  padding: 110px 20px 60px;
+}
+
+.hero h1 {
+  font-size: 48px;
+  font-weight: 400;
+  letter-spacing: 2px;
+}
+
+.sub {
+  opacity: 0.7;
+  margin-top: 12px;
+}
+
+/* TEXT REVEAL */
+.reveal {
+  animation: blurIn 1.6s ease forwards;
+}
+
+.reveal-delay {
+  animation: blurIn 1.6s ease forwards;
+  animation-delay: 0.4s;
+  opacity: 0;
+}
+
+@keyframes blurIn {
+  from {
+    opacity: 0;
+    filter: blur(10px);
+    transform: translateY(20px);
+  }
+  to {
+    opacity: 1;
+    filter: blur(0);
+    transform: translateY(0);
+  }
+}
+
+/* SECTIONS */
+section {
+  max-width: 760px;
+  margin: 70px auto;
+  text-align: center;
+  padding: 20px;
+}
+
+.hidden {
+  opacity: 0;
+  transform: translateY(30px);
+}
+
+/* FLOATING RINGS */
+.animation-zone {
+  height: 220px;
+  position: relative;
+}
+
+.ring {
+  width: 140px;
+  height: 140px;
+  border-radius: 50%;
+  border: 1px solid rgba(255,255,255,0.25);
+  position: absolute;
+  left: 50%;
+  top: 50%;
+  transform: translate(-50%,-50%);
+  animation: drift 10s ease-in-out infinite;
+}
+
+.ring.small {
+  width: 80px;
+  height: 80px;
+  animation-duration: 7s;
+  opacity: 0.6;
+}
+
+@keyframes drift {
+  0%,100% { transform: translate(-50%,-50%) rotate(0deg); }
+  50% { transform: translate(-50%,-60%) rotate(180deg); }
+}
+
+/* INFO */
+.info h2 {
+  font-weight: 400;
+  letter-spacing: 1px;
+  margin-bottom: 15px;
+}
+
+.text {
+  opacity: 0.85;
+  line-height: 1.8;
+}
+
+.highlight {
+  color: #aadfff;
+}
+
+/* NOTE */
+.note {
+  font-size: 15px;
+  line-height: 2;
+}
+
+/* FOOTER */
+footer {
+  text-align: center;
+  padding: 40px;
+  opacity: 0.45;
+}
+/* SCROLL REVEAL */
+const observer = new IntersectionObserver(entries => {
+  entries.forEach(entry => {
+    if (entry.isIntersecting) {
+      entry.target.style.transition = "1s ease";
+      entry.target.style.opacity = 1;
+      entry.target.style.transform = "translateY(0)";
+    }
+  });
+}, { threshold: 0.2 });
+
+document.querySelectorAll(".hidden").forEach(el => observer.observe(el));
+
+/* PARTICLES */
+const canvas = document.getElementById("particles");
+const ctx = canvas.getContext("2d");
+canvas.width = innerWidth;
+canvas.height = innerHeight;
+
+let particles = Array.from({length: 40}, () => ({
+  x: Math.random() * canvas.width,
+  y: Math.random() * canvas.height,
+  r: Math.random() * 1.5 + 0.5,
+  dx: Math.random() * 0.3,
+  dy: Math.random() * 0.3
+}));
+
+function animateParticles() {
+  ctx.clearRect(0,0,canvas.width,canvas.height);
+  ctx.fillStyle = "rgba(255,255,255,0.4)";
+
+  particles.forEach(p => {
+    p.x += p.dx;
+    p.y += p.dy;
+
+    if (p.x > canvas.width) p.x = 0;
+    if (p.y > canvas.height) p.y = 0;
+
+    ctx.beginPath();
+    ctx.arc(p.x, p.y, p.r, 0, Math.PI*2);
+    ctx.fill();
+  });
+
+  requestAnimationFrame(animateParticles);
+}
+animateParticles();
